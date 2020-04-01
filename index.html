@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Battle of Painters</title>
+  <meta name="viewport" content="width=720, initial-scale=1, user-scalable=no"">
+  <link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@444&display=swap" rel="stylesheet">
+  <style type="text/css">
+    * {
+      pointer-events: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    html {
+      background-color: black;
+      height: 100vh;
+    }
+
+    body {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      justify-content: center;
+      align-items: center;
+    }
+
+    main {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      /*width: calc(2 * 720px);
+      height: calc(2 * 720px);*/
+    }
+
+    #background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+    }
+
+    #foreground {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+    }
+
+    #lobby {
+      font-family: 'Lemonada', cursive;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: white;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .playersHeader {
+      width: 256px;
+      border-bottom: 1px solid black;
+    }
+
+    .slot {
+      width: 256px;
+      font-size: 13px;
+      letter-spacing: 0.69px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      border-bottom: 0.5px solid black;
+    }
+
+    .spectatorsHeader {
+      width: 256px;
+      border-bottom: 1px solid black;
+      margin-top: 24px;
+    }
+
+    #play,
+    #lobby-join-player,
+    #lobby-join-spectator {
+      pointer-events: all;
+      margin: 0;
+      padding: 0;
+      width: 256px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      font-family: inherit;
+      background-color: deepskyblue;
+      border: none;
+      padding: 2px;
+      font-size: 13px;
+      letter-spacing: 0.69px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
+    #lobby-join-player:hover,
+    #lobby-join-spectator:hover {
+      background-color: skyblue;
+    }
+
+    #play {
+      background-color: lightsalmon;
+    }
+
+    #play:hover {
+      background-color: salmon;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .invisible {
+      opacity: 0 !important;
+    }
+  </style>
+  <script type="text/javascript" src="src/index.js" defer></script>
+</head>
+<body>
+  <main id="main">
+    <canvas id="background"></canvas>
+    <canvas id="foreground"></canvas>
+    <section id="lobby">
+      <svg id="loader" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="height: 64px; shape-rendering: auto; background-position: initial initial; background-repeat: initial initial;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <rect x="17.5" y="30" width="15" height="40" fill="#0051a2">
+          <animate attributeName="y" repeatCount="indefinite" dur="1.25s" calcMode="spline" keyTimes="0;0.5;1" values="18;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+          <animate attributeName="height" repeatCount="indefinite" dur="1.25s" calcMode="spline" keyTimes="0;0.5;1" values="64;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.25s"></animate>
+        </rect>
+        <rect x="42.5" y="30" width="15" height="40" fill="#1b75be">
+          <animate attributeName="y" repeatCount="indefinite" dur="1.25s" calcMode="spline" keyTimes="0;0.5;1" values="20.999999999999996;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.125s"></animate>
+          <animate attributeName="height" repeatCount="indefinite" dur="1.25s" calcMode="spline" keyTimes="0;0.5;1" values="58.00000000000001;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1" begin="-0.125s"></animate>
+        </rect>
+        <rect x="67.5" y="30" width="15" height="40" fill="#408ee0">
+          <animate attributeName="y" repeatCount="indefinite" dur="1.25s" calcMode="spline" keyTimes="0;0.5;1" values="20.999999999999996;30;30" keySplines="0 0.5 0.5 1;0 0.5 0.5 1"></animate>
+          <animate attributeName="height" repeatCount="indefinite" dur="1.25s" calcMode="spline" keyTimes="0;0.5;1" values="58.00000000000001;40;40" keySplines="0 0.5 0.5 1;0 0.5 0.5 1"></animate>
+        </rect>
+      </svg>
+      <button id="play" class="hidden" onclick="onPlayGame()">PLAY</button>
+      <div class="playersHeader">Players:</div>
+      <button id="lobby-join-player" class="hidden" onclick="onJoinPlayer()">Join as a Player</button>
+      <div id="lobby-players">
+        <div class="slot">- Empty player slot</div>
+        <div class="slot">- Empty player slot</div>
+        <div class="slot">- Empty player slot</div>
+        <div class="slot">- Empty player slot</div>
+      </div>
+      <div class="spectatorsHeader">Spectators:</div>
+      <button id="lobby-join-spectator" class="hidden" onclick="onJoinSpectator()">Join as a Spectator</button>
+      <div id="lobby-spectators"></div>
+    </section>
+  </main>
+</body>
+</html>

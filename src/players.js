@@ -1,4 +1,10 @@
-import { BOARD, RADIUS, COLORS, VELOCITY, PLAYER, INPUT } from '~/src/constants';
+import {
+  BOARD,
+  COLORS,
+  ANGULAR_VELOCITY_MAGNITUDE,
+  PLAYER,
+  INPUT,
+} from '~/src/constants';
 import { drawBoardPixel } from '~/src/board';
 import { onInput } from '~/src/networking';
 
@@ -38,7 +44,7 @@ export const handleInput = (event) => {
       if (player.controls.right.isPressed) {
         player.angularVelocity = 0;
       } else {
-        player.angularVelocity = -VELOCITY.ANGULAR.NORMAL;
+        player.angularVelocity = -ANGULAR_VELOCITY_MAGNITUDE;
       }
     } else if (!player.controls.right.isPressed && event.code === player.controls.right.code) {
       onInput(INPUT.RIGHT, true);
@@ -46,7 +52,7 @@ export const handleInput = (event) => {
       if (player.controls.left.isPressed) {
         player.angularVelocity = 0;
       } else {
-        player.angularVelocity = VELOCITY.ANGULAR.NORMAL;
+        player.angularVelocity = ANGULAR_VELOCITY_MAGNITUDE;
       }
     }
   } else if (event.type === "keyup") {
@@ -54,7 +60,7 @@ export const handleInput = (event) => {
       onInput(INPUT.LEFT, false);
       player.controls.left.isPressed = false;
       if (player.controls.right.isPressed) {
-        player.angularVelocity = VELOCITY.ANGULAR.NORMAL;
+        player.angularVelocity = ANGULAR_VELOCITY_MAGNITUDE;
       } else {
         player.angularVelocity = 0;
       }
@@ -62,7 +68,7 @@ export const handleInput = (event) => {
       onInput(INPUT.RIGHT, false);
       player.controls.right.isPressed = false;
       if (player.controls.left.isPressed) {
-        player.angularVelocity = -VELOCITY.ANGULAR.NORMAL;
+        player.angularVelocity = -ANGULAR_VELOCITY_MAGNITUDE;
       } else {
         player.angularVelocity = 0;
       }
@@ -75,7 +81,7 @@ export const handleInput = (event) => {
       }
       onInput(INPUT.LEFT, true);
       player.controls.left.isPressed = true;
-      player.angularVelocity = -VELOCITY.ANGULAR.NORMAL;
+      player.angularVelocity = -ANGULAR_VELOCITY_MAGNITUDE;
     } else {
       if (player.controls.left.isPressed) {
         onInput(INPUT.LEFT, false);
@@ -83,7 +89,7 @@ export const handleInput = (event) => {
       }
       onInput(INPUT.RIGHT, true);
       player.controls.right.isPressed = true;
-      player.angularVelocity = VELOCITY.ANGULAR.NORMAL;
+      player.angularVelocity = ANGULAR_VELOCITY_MAGNITUDE;
     }
   } else if (event.type === "touchend" || event.type === "touchcancel") {
     if (player.controls.left.isPressed) {

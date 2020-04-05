@@ -4,8 +4,9 @@ import { initPlayers, handleInput, drawPlayers } from '~/src/players';
 import { drawUI } from '~/src/ui';
 import { initLobby, hideLobby } from '~/src/lobby';
 import { distance } from '~/src/utils';
+import { registerEvents } from '~/src/protocol';
 import { initConnection } from '~/src/networking';
-import { BOARD, COLORS, RADIUS, PLAYER, VELOCITY } from '~/src/constants'
+import { BOARD, COLORS, PLAYER, VELOCITY, RADIUS, DIRECTION_PRECISION } from '~/src/constants'
 
 const updateCanvasSize = () => {
   const scaleX = Math.floor(window.innerWidth / BOARD.SIZE);
@@ -59,6 +60,7 @@ const updateAndDraw = () => {
 
 const init = () => {
   initGlobals();
+  registerEvents();
   initConnection();
   initLobby();
 };
@@ -74,15 +76,23 @@ export const initGame = (data) => {
 };
 
 export const tick = (data) => {
-  debugger;
   for (let i = 0; i < data.players.length; i++) {
+    const player = data.players[i];
     window.players[i] = {
       ...window.players[i],
-      ...data.players[i],
+      x: player.x / 10,
+      y: player.y / 10,
+      velocity: {
+        type: player.speed,
+        x: Math.cos(player.direction / DIRECTION_PRECISION) * VELOCITY.LINEAR[player.speed],
+        y: Math.sin(player.direction / DIRECTION_PRECISION) * VELOCITY.LINEAR[player.speed],
+      },
+      radius: RADIUS[player.radius],
+      angularVelocity: VELOCITY.ANGULAR[player.turning],
     };
   };
-  for (let index in data.diff) {
-    window.board[index] = data.diff[index];
+  for (let location in data.diff) {
+    window.board[location] = data.diff[location];
   }
 }
 
@@ -123,14 +133,14 @@ const update = (dt) => {
         player.velocity.x = tangent.x * dpTan1 + normal.x * dpNorm2;
         player.velocity.y = tangent.y * dpTan1 + normal.y * dpNorm2;
         const angle1 = Math.atan2(player.velocity.y, player.velocity.x);
-        player.velocity.x = Math.cos(angle1) * VELOCITY.LINEAR.NORMAL;
-        player.velocity.y = Math.sin(angle1) * VELOCITY.LINEAR.NORMAL;
+        player.velocity.x = Math.cos(angle1) * VELOCITY.LINEAR[player.velocity.type];
+        player.velocity.y = Math.sin(angle1) * VELOCITY.LINEAR[player.velocity.type];
 
         otherPlayer.velocity.x = tangent.x * dpTan2 + normal.x * dpNorm1;
         otherPlayer.velocity.y = tangent.y * dpTan2 + normal.y * dpNorm1;
         const angle2 = Math.atan2(otherPlayer.velocity.y, otherPlayer.velocity.x);
-        otherPlayer.velocity.x = Math.cos(angle2) * VELOCITY.LINEAR.NORMAL;
-        otherPlayer.velocity.y = Math.sin(angle2) * VELOCITY.LINEAR.NORMAL;
+        otherPlayer.velocity.x = Math.cos(angle2) * VELOCITY.LINEAR[otherPlayer.velocity.type];
+        otherPlayer.velocity.y = Math.sin(angle2) * VELOCITY.LINEAR[otherPlayer.velocity.type];
 
         const displacement = {
           x: ((p1.x - p2.x) / dist) * (PLAYER.WIDTH - dist + 1),

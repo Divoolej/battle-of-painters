@@ -11,6 +11,6 @@
     "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
-    "bintocol-js": "^1.0.1"
+    "bintocol-js": "^1.4.0"
   }
 }

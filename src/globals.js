@@ -10,7 +10,6 @@ export const initGlobals = () => {
   window.board = [];
   window.players = [];
   window.frames = [];
-  window.packets = [];
   window.pings = [];
   window.lastPing = Date.now();
   window.lastFrameBackup = null;

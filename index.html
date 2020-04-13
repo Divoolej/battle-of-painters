@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Battle of Painters</title>
-  <meta name="viewport" content="width=720, viewport-fit=contain, user-scalable=no">
+  <meta name="viewport" content="width=device-width, viewport-fit=contain, user-scalable=no">
   <link href="https://fonts.googleapis.com/css2?family=Lemonada:wght@444&display=swap" rel="stylesheet">
   <style type="text/css">
     #debug {
@@ -25,6 +25,10 @@
       user-select: none;
     }
 
+    html, body {
+      position: fixed;
+    }
+
     html {
       background-color: black;
       height: 100%;
@@ -43,8 +47,6 @@
       position: relative;
       width: 100%;
       height: 100%;
-      /*width: calc(2 * 720px);
-      height: calc(2 * 720px);*/
     }
 
     #background {

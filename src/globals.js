@@ -8,7 +8,6 @@ export const initGlobals = () => {
   window.countdown = document.getElementById('countdown');
   window.bgGfx = background.getContext('2d', { alpha: false });
   window.fgGfx = foreground.getContext('2d');
-  window.scale = 1;
   window.board = [];
   window.players = [];
   window.frames = [];

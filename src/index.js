@@ -8,19 +8,18 @@ import { initConnection } from '~/src/networking';
 import { BOARD, COLORS, PLAYER, RADIUS } from '~/src/constants'
 
 const updateCanvasSize = () => {
-  const scaleX = 1//Math.floor(window.innerWidth / BOARD.SIZE);
-  const scaleY = 1//Math.floor(window.innerHeight / BOARD.SIZE);
-  scale = Math.max(1, Math.min(scaleX, scaleY));
-  background.width = BOARD.SIZE// * scale;
-  background.height = BOARD.SIZE// * scale;
-  background.style.width = `${BOARD.SIZE * scale}px`;
-  background.style.height = `${BOARD.SIZE * scale}px`;
-  foreground.width = BOARD.SIZE// * scale;
-  foreground.height = BOARD.SIZE// * scale;
-  foreground.style.width = `${BOARD.SIZE * scale}px`;
-  foreground.style.height = `${BOARD.SIZE * scale}px`;
-  main.style.width = `${BOARD.SIZE * scale}px`;
-  main.style.height = `${BOARD.SIZE * scale}px`;
+  const size = Math.min(window.innerWidth, window.innerHeight);
+
+  background.width = BOARD.SIZE;
+  background.height = BOARD.SIZE;
+  background.style.width = `${size}px`;
+  background.style.height = `${size}px`;
+  foreground.width = BOARD.SIZE;
+  foreground.height = BOARD.SIZE;
+  foreground.style.width = `${size}px`;
+  foreground.style.height = `${size}px`;
+  main.style.width = `${size}px`;
+  main.style.height = `${size}px`;
   fgGfx.imageSmoothingEnabled = false;
 
   // Init or redraw Background
@@ -80,7 +79,6 @@ export const initGame = (data) => {
   registerEventListeners();
   drawBoardState();
   draw();
-  debug.innerText = `${window.innerWidth} x ${window.innerHeight} (${window.devicePixelRatio})`;
 };
 
 export const countdownTick = (timer) => {

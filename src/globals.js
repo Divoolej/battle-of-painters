@@ -1,4 +1,5 @@
 export const initGlobals = () => {
+  window.debug = document.getElementById('debug');
   window.main = document.getElementById('main');
   window.loader = document.getElementById('loader');
   window.playButton = document.getElementById('play');

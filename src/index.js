@@ -8,8 +8,8 @@ import { initConnection } from '~/src/networking';
 import { BOARD, COLORS, PLAYER, RADIUS } from '~/src/constants'
 
 const updateCanvasSize = () => {
-  const scaleX = Math.floor(window.innerWidth / BOARD.SIZE);
-  const scaleY = Math.floor(window.innerHeight / BOARD.SIZE);
+  const scaleX = 1//Math.floor(window.innerWidth / BOARD.SIZE);
+  const scaleY = 1//Math.floor(window.innerHeight / BOARD.SIZE);
   scale = Math.max(1, Math.min(scaleX, scaleY));
   background.width = BOARD.SIZE// * scale;
   background.height = BOARD.SIZE// * scale;
@@ -80,6 +80,7 @@ export const initGame = (data) => {
   registerEventListeners();
   drawBoardState();
   draw();
+  debug.innerText = `${window.innerWidth} x ${window.innerHeight} (${window.devicePixelRatio})`;
 };
 
 export const countdownTick = (timer) => {

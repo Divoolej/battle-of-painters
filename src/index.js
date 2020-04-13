@@ -38,10 +38,9 @@ const registerEventListeners = () => {
   window.addEventListener("keydown", handleInput);
   window.addEventListener("keyup", handleInput);
   window.addEventListener("touchstart", handleInput);
-  window.addEventListener("touchmove", handleInput);
   window.addEventListener("touchend", handleInput);
   window.addEventListener("touchcancel", handleInput);
-}
+};
 
 const draw = () => {
   const now = performance.now()
@@ -83,6 +82,12 @@ export const initGame = (data) => {
   draw();
 };
 
+export const countdownTick = (timer) => {
+  countdown.classList.remove('transition');
+  countdown.innerText = timer;
+  setTimeout(() => countdown.classList.add('transition'), 1);
+};
+
 export const tick = (data) => {
   for (let i = 0; i < data.players.length; i++) {
     const player = data.players[i];
@@ -97,18 +102,24 @@ export const tick = (data) => {
     window.board[location] = data.diff[location];
   }
   drawPlayers();
-}
+};
 
 const drawBoardState = () => {
+  bgGfx.fillStyle = COLORS[BOARD.EMPTY];
+  bgGfx.fillRect(0, 0, background.width, background.height);
+  bgGfx.fill();
+
   for (let y = 0; y < BOARD.SIZE; y++) {
     for (let x = 0; x < BOARD.SIZE; x++) {
-      bgGfx.beginPath();
-      bgGfx.fillStyle = COLORS[board[y * BOARD.SIZE + x]];
-      bgGfx.fillRect(x, y, 1, 1);
-      bgGfx.fill();
+      if (COLORS[board[y * BOARD.SIZE + x]] !== COLORS[BOARD.EMPTY]) {
+        bgGfx.beginPath();
+        bgGfx.fillStyle = COLORS[board[y * BOARD.SIZE + x]];
+        bgGfx.fillRect(x, y, 1, 1);
+        bgGfx.fill();
+      }
     }
   }
-}
+};
 
 if (['complete', 'interactive'].includes(document.readyState)) {
   setTimeout(init, 0);

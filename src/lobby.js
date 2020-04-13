@@ -6,7 +6,7 @@ const clearChildren = (el) => {
   while (el.children.length > 0) {
     el.removeChild(el.children[0]);
   }
-}
+};
 
 export const initLobby = (data) => {
   const root = document.getElementById("lobby");
@@ -67,4 +67,4 @@ export const updateLobby = ({ owner, players, spectators, state }) => {
   });
 
   stopLoading();
-}
+};

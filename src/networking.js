@@ -2,7 +2,7 @@ import Bintocol from 'bintocol-js';
 import { BACKEND_URL, EVENTS, GAME_STATES } from '~/src/constants';
 import { initLobby, updateLobby } from '~/src/lobby';
 import { json } from '~/src/utils';
-import { initGame, tick } from '~/src';
+import { initGame, tick, countdownTick } from '~/src';
 
 export const initConnection = () => {
   window.ws = new WebSocket(`${BACKEND_URL}/?roomId=${window.roomId}&userId=${window.playerId}`);
@@ -46,6 +46,9 @@ const networkController = (message) => {
       case EVENTS.TICK:
         tick(data);
         break;
+      case EVENTS.COUNTDOWN:
+        countdownTick(data);
+        break;
     }
   }
 };
@@ -70,4 +73,4 @@ export const onInput = (key, isPressed) => {
     event: EVENTS.INPUT,
     data: { key, isPressed },
   }));
-}
+};

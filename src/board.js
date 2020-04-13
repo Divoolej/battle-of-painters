@@ -5,7 +5,7 @@ export const initBoard = (boardData) => {
   for (let i = 0; i < BOARD.SIZE * BOARD.SIZE; i++) {
     board.push(boardData[i] || BOARD.EMPTY);
   }
-}
+};
 
 export const paintBoard = (x, y, radius, tile) => {
   for (let i = x - radius; i < x + radius; i++) {
@@ -16,4 +16,4 @@ export const paintBoard = (x, y, radius, tile) => {
       }
     }
   }
-}
+};
